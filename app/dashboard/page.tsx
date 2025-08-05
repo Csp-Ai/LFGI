@@ -5,6 +5,7 @@ import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
+import { isAuthenticated } from '../../lib/auth';
 import 'react-quill/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
@@ -19,7 +20,13 @@ function generateSlug(text: string) {
 
 export default function Dashboard() {
   const session = useSession();
-  const supabase = useSupabaseClient();
+  let supabase: ReturnType<typeof useSupabaseClient> | null = null;
+  try {
+    supabase = useSupabaseClient();
+  } catch (e) {
+    console.warn('Supabase client unavailable', e);
+  }
+
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
@@ -31,7 +38,7 @@ export default function Dashboard() {
   };
 
   const savePost = async () => {
-    if (!session) return;
+    if (!session || !supabase) return;
     await supabase.from('posts').upsert({
       title,
       slug,
@@ -43,7 +50,11 @@ export default function Dashboard() {
     setContent('');
   };
 
-  if (!session) {
+  if (!supabase) {
+    return <div>Supabase client unavailable</div>;
+  }
+
+  if (!isAuthenticated(session)) {
     return (
       <Auth
         supabaseClient={supabase}

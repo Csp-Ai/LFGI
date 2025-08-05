@@ -1,13 +1,8 @@
 import Link from 'next/link';
-import { supabase } from '../../lib/supabaseClient';
-
-async function getPosts() {
-  const { data } = await supabase.from('posts').select('id,title,slug,created_at').order('created_at', { ascending: false });
-  return data || [];
-}
+import { fetchPosts } from '../../lib/blog';
 
 export default async function Blog() {
-  const posts = await getPosts();
+  const posts = await fetchPosts();
   return (
     <div className="max-w-3xl mx-auto p-4 space-y-6">
       <h1 className="text-3xl font-bold mb-4">Blog</h1>

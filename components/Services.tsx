@@ -1,6 +1,11 @@
 import { supabase } from '../lib/supabaseClient';
 
 export default async function Services() {
+  if (!supabase) {
+    console.warn('Supabase client unavailable');
+    return null;
+  }
+
   const { data: services } = await supabase
     .from('services')
     .select('*')
