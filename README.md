@@ -48,3 +48,8 @@ tests, and build checks before Vercel deploys.
 - Blog system with WYSIWYG editor
 - Dark/light theme with Tailwind CSS
 - Agent-ready architecture (see `agents/`)
+
+## Codex System Overview
+- Agents live under `agents/` and log actions to `logs.json`.
+- Reusable prompts are stored in `codex-prompts/` for Codex workflows.
+- `pnpm tsx agents/roadmap-agent.ts` audits roadmap items and phases.
