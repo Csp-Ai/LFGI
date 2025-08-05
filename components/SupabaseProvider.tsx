@@ -1,3 +1,7 @@
+// ⬇️ Imported from Csp-Ai/hybriddancers on 2025-08-04
+// Source Commit: e1cb0d6e911eed297ba728a26b4e54ffa5a81bcc
+// Original Path: components/SupabaseProvider.tsx
+// Integration Status: ⚠️ Needs review
 'use client';
 
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
